@@ -1,0 +1,13 @@
+{
+  "name": "news-reader",
+  "version": "1.0.0",
+  "description": "News Reader App",
+  "scripts": {
+    "server:install": "cd server && npm install",
+    "web:install": "cd web && npm install",
+    "install:all": "npm run server:install && npm run web:install",
+    "server:dev": "cd server && npm run dev",
+    "web:dev": "cd web && npm run dev",
+    "dev": "npm run server:dev & npm run web:dev"
+  }
+}
