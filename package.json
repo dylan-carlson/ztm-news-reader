@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "News Reader App",
   "scripts": {
-    "server:install": "cd server && npm install",
     "web:install": "cd web && npm install",
-    "install:all": "npm run server:install && npm run web:install",
-    "server:dev": "cd server && npm run dev",
+    "install:all": "npm install && npm run web:install",
+    "server:dev": "node api/index.js",
     "web:dev": "cd web && npm run dev",
     "dev": "npm run server:dev & npm run web:dev"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
   }
 }
