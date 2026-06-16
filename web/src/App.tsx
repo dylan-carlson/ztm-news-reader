@@ -160,90 +160,97 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <div className={`sidebar ${showFilters ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h2>NewsReader</h2>
+      <header className="top-header">
+        <h2>News Reader</h2>
+      </header>
+
+      <div className="main-layout">
+        <div className={`sidebar ${showFilters ? 'open' : ''}`}>
           <button className="mobile-close" onClick={() => setShowFilters(false)}>✕</button>
-        </div>
-        
-        <form className="search-form" onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            placeholder="Search news..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </form>
-
-        <div className="categories">
-          <h3>Categories</h3>
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              className={`category-btn ${category === cat && !search ? 'active' : ''}`}
-              onClick={() => handleCategoryClick(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        <button 
-          className={`favorites-btn ${showFavorites ? 'active' : ''}`}
-          onClick={() => {
-            setShowFavorites(!showFavorites);
-            setCurrentIndex(0);
-            setShowFilters(false);
-          }}
-        >
-          {showFavorites ? 'Back to News' : '⭐ Favorites'}
-        </button>
-      </div>
-
-      <div className="main-content">
-        <button className="mobile-toggle" onClick={() => setShowFilters(true)}>
-          Show Filters
-        </button>
-        
-        {loading && !showFavorites ? (
-          <div className="loading-skeleton">
-            <div className="spinner"></div>
-          </div>
-        ) : error ? (
-          <div className="error-message">
-            <p>{error}</p>
-          </div>
-        ) : !currentArticle ? (
-          <div className="no-results">
-            <p>No articles found.</p>
-          </div>
-        ) : (
-          <div className="article-view">
-            <HeadlinesList
-              article={currentArticle}
-              isFavorite={favorites.some(f => f.uuid === currentArticle.uuid)}
-              onToggleFavorite={() => toggleFavorite(currentArticle)}
+          
+          <form className="search-form" onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              placeholder="Search headlines..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            
-            <div className="pager">
-              <button onClick={handleFirstPage} disabled={(page === 1 && currentIndex === 0) || showFavorites}>«</button>
-              <button onClick={handlePrev} disabled={(page === 1 && currentIndex === 0) || showFavorites && currentIndex === 0}>‹</button>
-              
-              {displayArticles.map((_, idx) => (
-                <button
-                  key={idx}
-                  className={`dot ${idx === currentIndex ? 'active' : ''}`}
-                  onClick={() => handleDotClick(idx)}
-                >
-                  {showFavorites ? idx + 1 : (page - 1) * 3 + idx + 1}
-                </button>
-              ))}
-              
-              <button onClick={handleNext} disabled={showFavorites && currentIndex === favorites.length - 1}>›</button>
-            </div>
+            <button type="submit">Search</button>
+          </form>
+
+          <div className="categories">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                className={`category-btn ${category === cat && !search ? 'active' : ''}`}
+                onClick={() => handleCategoryClick(cat)}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        )}
+
+          <button 
+            className={`favorites-btn ${showFavorites ? 'active' : ''}`}
+            onClick={() => {
+              setShowFavorites(!showFavorites);
+              setCurrentIndex(0);
+              setShowFilters(false);
+            }}
+          >
+            {showFavorites ? 'Back to News' : 'Favorites'}
+          </button>
+        </div>
+
+        <div className="main-content">
+          <button className="mobile-toggle" onClick={() => setShowFilters(true)}>
+            Show Filters
+          </button>
+          
+          {loading && !showFavorites ? (
+            <div className="loading-skeleton">
+              <div className="spinner"></div>
+            </div>
+          ) : error ? (
+            <div className="error-message">
+              <p>{error}</p>
+            </div>
+          ) : !currentArticle ? (
+            <div className="no-results">
+              <p>No articles found.</p>
+            </div>
+          ) : (
+            <div className="article-view">
+              <HeadlinesList
+                article={currentArticle}
+                isFavorite={favorites.some(f => f.uuid === currentArticle.uuid)}
+                onToggleFavorite={() => toggleFavorite(currentArticle)}
+              />
+              
+              <div className="pager-container">
+                <div className="pager">
+                  <button onClick={handleFirstPage} disabled={(page === 1 && currentIndex === 0) || showFavorites}>«</button>
+                  <button onClick={handlePrev} disabled={(page === 1 && currentIndex === 0) || showFavorites && currentIndex === 0}>‹</button>
+                  
+                  {displayArticles.map((_, idx) => (
+                    <button
+                      key={idx}
+                      className={`dot ${idx === currentIndex ? 'active' : ''}`}
+                      onClick={() => handleDotClick(idx)}
+                    >
+                      {showFavorites ? idx + 1 : (page - 1) * 3 + idx + 1}
+                    </button>
+                  ))}
+                  
+                  <button onClick={handleNext} disabled={showFavorites && currentIndex === favorites.length - 1}>›</button>
+                </div>
+                <div className="data-footer">
+                  Data from TheNewsApi • Language: English • Limit: 3 per page
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

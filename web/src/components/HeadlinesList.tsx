@@ -11,15 +11,18 @@ export function HeadlinesList({ article, isFavorite, onToggleFavorite }: Article
 
   return (
     <div className="featured-card">
-      <div className="card-image-wrapper">
-        <img src={imageUrl} alt={article.title} className="card-image" />
-        <div className="card-overlay">
-          <h2>{article.title}</h2>
-          <p className="card-source">{article.source} • {new Date(article.published_at).toLocaleDateString()}</p>
+      <img src={imageUrl} alt="" className="card-bg-image" />
+      <div className="card-overlay"></div>
+      
+      <div className="card-content-layer">
+        <div className="card-header-info">
+          <h2 className="card-title">{article.title}</h2>
+          <p className="card-snippet">{article.snippet}</p>
+          <div className="card-meta">
+            {article.source} • {new Date(article.published_at).toLocaleString()}
+          </div>
         </div>
-      </div>
-      <div className="card-content">
-        <p className="card-snippet">{article.snippet}</p>
+        
         <div className="card-actions">
           <a href={article.url} target="_blank" rel="noopener noreferrer" className="view-full-btn">
             View Full Article
@@ -28,7 +31,7 @@ export function HeadlinesList({ article, isFavorite, onToggleFavorite }: Article
             className={`fav-toggle-btn ${isFavorite ? 'is-fav' : ''}`}
             onClick={onToggleFavorite}
           >
-            {isFavorite ? '★ Saved to Favorites' : '☆ Save to Favorites'}
+            {isFavorite ? 'Saved to Favorites' : 'Save to Favorites'}
           </button>
         </div>
       </div>
